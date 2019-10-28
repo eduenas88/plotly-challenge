@@ -50,7 +50,7 @@ function buildCharts(sample) {
     let pData = [{
       value: value.slice(0,10), 
       label: id.slice(0,10), 
-      hoverText: label.slice(0,10); 
+      hoverText: label.slice(0,10),
       hoverDet: "hoverText", 
       type: "pie"
     }
@@ -61,7 +61,7 @@ function buildCharts(sample) {
     }; 
     Plotly.plot("pie", pData, pLayout); 
 }); 
-
+}
 function init() {
   // Grab a reference to the dropdown select element
   var selector = d3.select("#selDataset");
