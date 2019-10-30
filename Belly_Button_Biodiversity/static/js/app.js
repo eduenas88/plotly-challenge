@@ -25,7 +25,9 @@ function buildCharts(sample) {
   d3.json('/samples/${sample}').then((sample) => {
     let id = sample.otu_ids; 
     let label = sample.otu_labels; 
-    let value = sample.sample_values; 
+    let xvalue = sample.sample_values;  
+    let yvalue = sample.otu_labels;
+
     // @TODO: Build a Bubble Chart using the sample data
     let layout = {
       margin: { t: 0 },
@@ -34,12 +36,12 @@ function buildCharts(sample) {
     // @TODO: Build a Pie Chart
     let bubble = [ {
       x: id, 
-      y: value, 
+      y: yvalue, 
       text: label, 
       mode: "markers", 
       marker: {
         color: id, 
-        size: value
+        size: yvalue
       }
     } ]; 
 
@@ -48,7 +50,7 @@ function buildCharts(sample) {
     // otu_ids, and labels (10 each).
 
     let pData = [{
-      value: value.slice(0,10), 
+      value: xvalue.slice(0,10), 
       label: id.slice(0,10), 
       hoverText: label.slice(0,10),
       hoverDet: "hoverText", 
