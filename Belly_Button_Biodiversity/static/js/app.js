@@ -1,10 +1,10 @@
 function buildMetadata(sample) {
 
   // @TODO: Complete the following function that builds the metadata panel
-   
+    var url = `/metadata/${sample}`;
   // Use `d3.json` to fetch the metadata for a sample
     // Use d3 to select the panel with id of `#sample-metadata`
-    d3.json('/metadata/${sample}').then((sample) => {
+    d3.json(url).then((sample) => {
     // Use `.html("") to clear any existing metadata
       let sample_metadata = d3.select("#sample-metadata"); 
       sample_metadata.html(""); 
@@ -20,9 +20,9 @@ function buildMetadata(sample) {
 }
 
 function buildCharts(sample) {
-
+  var url = `/samples/${sample}`
   // @TODO: Use `d3.json` to fetch the sample data for the plots
-  d3.json('/samples/${sample}').then((sample) => {
+  d3.json(url).then((sample) => {
     let id = sample.otu_ids; 
     let label = sample.otu_labels; 
     let xvalue = sample.sample_values;  
@@ -44,6 +44,12 @@ function buildCharts(sample) {
         size: yvalue
       }
     } ]; 
+
+    var sample = [bubble]
+    var layout = {
+      xaxis : {title: "OTU ID"}
+    }; 
+
 
     Plotly.plot("bubble", bubble, layout); 
     // HINT: You will need to use slice() to grab the top 10 sample_values,
