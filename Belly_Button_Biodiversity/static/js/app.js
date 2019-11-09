@@ -22,14 +22,17 @@ function buildMetadata(sample) {
 function buildCharts(sample) {
   var url = `/samples/${sample}`
   // @TODO: Use `d3.json` to fetch the sample data for the plots
-  d3.json(url).then((sample) => {
-    let id = sample.otu_ids; 
-    let label = sample.otu_labels; 
-    let xvalue = sample.sample_values;  
-    let yvalue = sample.otu_labels;
+  d3.json(url).then(function(data) {
+    let id = data.otu_ids; 
+    let label = data.otu_labels; 
+    let xvalue = data.sample_values;  
+    let yvalue = data.otu_labels;
 
     // @TODO: Build a Bubble Chart using the sample data
     let layout = {
+      x: id, 
+      y: xvalue,
+      text: yvalue,
       margin: { t: 0 },
       xaxis: {title: "Id's"}, 
       hovermode: "closest"}; 
@@ -45,20 +48,27 @@ function buildCharts(sample) {
       }
     } ]; 
 
-    var sample = [bubble]
+    var data = [bubble]
     var layout = {
       xaxis : {title: "OTU ID"}
     }; 
 
 
-    Plotly.plot("bubble", bubble, layout); 
+    Plotly.newPlot("bubble", bubble, layout); 
     // HINT: You will need to use slice() to grab the top 10 sample_values,
     // otu_ids, and labels (10 each).
-
-    let pData = [{
-      value: xvalue.slice(0,10), 
-      label: id.slice(0,10), 
-      hoverText: label.slice(0,10),
+      d3.json(url).then(function(data){
+        var pvalues =
+    data.sample_values.slice(0,10); 
+        var plabels = 
+    data.otu_ids.slice(0,10); 
+        var phoover =
+    data.otu_labels.slice(0,10); 
+    
+        let pData = [{
+      values: pvalues, 
+      labels: plables, 
+      hoverText: phoover,
       hoverDet: "hoverText", 
       type: "pie"
     }
@@ -70,6 +80,9 @@ function buildCharts(sample) {
     Plotly.plot("pie", pData, pLayout); 
 }); 
 }
+  );
+
+
 function init() {
   // Grab a reference to the dropdown select element
   var selector = d3.select("#selDataset");
@@ -84,9 +97,9 @@ function init() {
     });
 
     // Use the first sample from the list to build the initial plots
-    const firstSample = sampleNames[0];
-    buildCharts(firstSample);
-    buildMetadata(firstSample);
+      const firstSample = sampleNames[0];
+        buildCharts(firstSample);
+        buildMetadata(firstSample);
   });
 }
 
@@ -95,6 +108,6 @@ function optionChanged(newSample) {
   buildCharts(newSample);
   buildMetadata(newSample);
 }
-
+}
 // Initialize the dashboard
 init();
