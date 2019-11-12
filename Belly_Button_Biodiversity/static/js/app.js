@@ -65,7 +65,7 @@ function buildCharts(sample) {
         var phoover =
     data.otu_labels.slice(0,10); 
     
-        let pData = [{
+    let pData = [{
       values: pvalues, 
       labels: plables, 
       hoverText: phoover,
@@ -73,10 +73,6 @@ function buildCharts(sample) {
       type: "pie"
     }
     ]; 
-
-    let pLayout = {
-      margin: {t: 0, l: 0}
-    }; 
     Plotly.plot("pie", pData, pLayout); 
 }); 
 }
