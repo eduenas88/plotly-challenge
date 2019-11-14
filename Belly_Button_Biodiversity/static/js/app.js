@@ -49,18 +49,19 @@ function buildCharts(sample) {
     } ]; 
 
     var data = [bubble]
-    var layout = {
+    var clayout = {
       xaxis : {title: "OTU ID"}
     }; 
 
 
-    Plotly.newPlot("bubble", bubble, layout); 
+    Plotly.newPlot("bubble", bubble, clayout); 
+
     // HINT: You will need to use slice() to grab the top 10 sample_values,
     // otu_ids, and labels (10 each).
       d3.json(url).then(function(data){
         var pvalues =
     data.sample_values.slice(0,10); 
-        var plabels = 
+        var plables = 
     data.otu_ids.slice(0,10); 
         var phoover =
     data.otu_labels.slice(0,10); 
@@ -73,12 +74,11 @@ function buildCharts(sample) {
       type: "pie"
     }
     ]; 
-    Plotly.plot("pie", pData, pLayout); 
+    Plotly.plot("pie", pData); 
 }); 
 }
   );
-
-
+}
 function init() {
   // Grab a reference to the dropdown select element
   var selector = d3.select("#selDataset");
@@ -104,6 +104,6 @@ function optionChanged(newSample) {
   buildCharts(newSample);
   buildMetadata(newSample);
 }
-}
+
 // Initialize the dashboard
 init();
